@@ -42,6 +42,11 @@ class ValueRenderer extends React.Component<Props, State> {
     if (!msg) {
       return [undefined, undefined]
     }
+    //assume jpg
+    if (msg.base64Message.substring(0, 2) == '/9') {
+      const img = Base64Message.toDataUri(msg, "image/jpeg");
+      return ["Image", undefined]
+    }
 
     const str = Base64Message.toUnicodeString(msg)
     try {
@@ -66,6 +71,12 @@ class ValueRenderer extends React.Component<Props, State> {
     if (!message.payload) {
       return
     }
+    if (message.payload.base64Message.substring(0, 2) == '/9') {
+      return (
+        <img src={Base64Message.toDataUri(message.payload, "image/jpeg")} />
+      )
+    }
+    
     const [value, valueLanguage] = this.convertMessage(message.payload)
     const [compareStr, compareStrLanguage] =
       compare && compare.payload ? this.convertMessage(compare.payload) : [undefined, undefined]
@@ -102,6 +113,13 @@ class ValueRenderer extends React.Component<Props, State> {
     }
     if (!message.payload) {
       return null
+    }
+    if (message.payload.base64Message.substring(0, 2) == '/9') {
+      return (
+        <span>
+          Image
+        </span>
+      )
     }
 
     const compareValue = compareMessage.payload || message.payload

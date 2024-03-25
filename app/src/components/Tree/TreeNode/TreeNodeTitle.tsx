@@ -30,7 +30,9 @@ class TreeNodeTitle extends React.PureComponent<TreeNodeProps, {}> {
     if (!this.props.treeNode.message || !this.props.treeNode.message.payload) {
       return ''
     }
-
+    if (this.props.treeNode.message.payload.base64Message.substring(0, 2) == '/9') {
+      return "Image";
+    }
     const str = Base64Message.toUnicodeString(this.props.treeNode.message.payload)
     return str.length > limit ? `${str.slice(0, limit)}…` : str
   }

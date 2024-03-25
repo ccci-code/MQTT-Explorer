@@ -2,7 +2,7 @@ import { Base64 } from 'js-base64'
 import { Decoder } from './Decoder'
 
 export class Base64Message {
-  private base64Message: string
+  public base64Message: string
   private unicodeValue: string
   public decoder: Decoder
   public length: number

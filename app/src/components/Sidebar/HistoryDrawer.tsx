@@ -64,7 +64,9 @@ function HistoryDrawer(props: Props) {
         </div>
         <div style={messageStyle}>
           <span>
-            <pre>{element.value}</pre>
+            {element.value.substring(0, 5) == "data:" ?
+              <img src={element.value}></img> : <pre>{element.value}</pre>
+            }
           </span>
         </div>
       </div>
