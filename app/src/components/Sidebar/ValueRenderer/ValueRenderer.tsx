@@ -115,9 +115,7 @@ class ValueRenderer extends React.Component<Props, State> {
     }
     if (message.payload.base64Message.substring(0, 2) == '/9') {
       return (
-        <span>
-          Image
-        </span>
+        <img src={Base64Message.toDataUri(message.payload, "image/jpeg")} />
       )
     }
 
