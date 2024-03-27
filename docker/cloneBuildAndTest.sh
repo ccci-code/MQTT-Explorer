@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-git clone https://github.com/thomasnordquist/MQTT-Explorer.git /app
+git clone https://github.com/ccci-code/MQTT-Explorer.git /app
 cd /app
 git checkout travis-ui-tests
 
