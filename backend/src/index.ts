@@ -10,7 +10,6 @@ import {
   makePublishEvent,
   removeConnection,
 } from '../../events'
-import { SparkplugDecoder } from './Model/sparkplugb'
 
 export class ConnectionManager {
   private connections: { [s: string]: DataSource<any> } = {}
@@ -49,7 +48,7 @@ export class ConnectionManager {
 
       backendEvents.emit(messageEvent, {
         topic,
-        payload: SparkplugDecoder.decode(buffer) ?? Base64Message.fromBuffer(buffer),
+        payload: Base64Message.fromBuffer(buffer),
         qos: packet.qos,
         retain: packet.retain,
         messageId: packet.messageId,

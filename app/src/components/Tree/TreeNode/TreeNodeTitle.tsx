@@ -31,7 +31,10 @@ class TreeNodeTitle extends React.PureComponent<TreeNodeProps, {}> {
       return ''
     }
     if (this.props.treeNode.message.payload.base64Message.substring(0, 2) == '/9') {
-      return "Image";
+      return "JPEG Image";
+    }
+    else if (this.props.treeNode.message.payload.base64Message.substring(0, 10) == 'iVBORw0KGg') {
+      return "PNG Image";
     }
     const str = Base64Message.toUnicodeString(this.props.treeNode.message.payload)
     return str.length > limit ? `${str.slice(0, limit)}…` : str
@@ -68,9 +71,8 @@ class TreeNodeTitle extends React.PureComponent<TreeNodeProps, {}> {
     const messages = this.props.treeNode.leafMessageCount()
     const topicCount = this.props.treeNode.childTopicCount()
     return (
-      <span key="metadata" className={this.props.classes.collapsedSubnodes}>{` (${topicCount} ${
-        topicCount === 1 ? 'topic' : 'topics'
-      }, ${messages} ${messages === 1 ? 'message' : 'messages'})`}</span>
+      <span key="metadata" className={this.props.classes.collapsedSubnodes}>{` (${topicCount} ${topicCount === 1 ? 'topic' : 'topics'
+        }, ${messages} ${messages === 1 ? 'message' : 'messages'})`}</span>
     )
   }
 

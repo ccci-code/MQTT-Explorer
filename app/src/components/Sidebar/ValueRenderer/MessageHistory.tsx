@@ -82,8 +82,15 @@ class MessageHistory extends React.PureComponent<Props, State> {
     const history = node.messageHistory.toArray()
     let previousMessage: q.Message | undefined = node.message
     const historyElements = [...history].reverse().map((message, idx) => {
-      //const value = message.payload ? Base64Message.toUnicodeString(message.payload) : ''
-      const value = message.payload ? (message.payload?.base64Message.substring(0, 2) == "/9") ? Base64Message.toDataUri(message.payload, "image/jpeg") : Base64Message.toUnicodeString(message.payload) : ''
+      let value = "";
+      if (message.payload) {
+        if (message.payload?.base64Message.substring(0, 2) == "/9")
+          value = Base64Message.toDataUri(message.payload, "image/jpeg")
+        else if (message.payload.base64Message.substring(0, 10) == 'iVBORw0KGg')
+          value = Base64Message.toDataUri(message.payload, "image/png")
+        else
+          value = Base64Message.toUnicodeString(message.payload)
+      }
       const element = {
         value,
         key: `${message.messageNumber}-${message.received}`,

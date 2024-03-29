@@ -42,10 +42,11 @@ class ValueRenderer extends React.Component<Props, State> {
     if (!msg) {
       return [undefined, undefined]
     }
-    //assume jpg
     if (msg.base64Message.substring(0, 2) == '/9') {
-      const img = Base64Message.toDataUri(msg, "image/jpeg");
-      return ["Image", undefined]
+      return ["JPEG Image", undefined]
+    }
+    if (msg.base64Message.substring(0, 10) == 'iVBORw0KGg') {
+      return ["PNG Image", undefined]
     }
 
     const str = Base64Message.toUnicodeString(msg)
@@ -76,7 +77,12 @@ class ValueRenderer extends React.Component<Props, State> {
         <img src={Base64Message.toDataUri(message.payload, "image/jpeg")} />
       )
     }
-    
+    else if (message.payload.base64Message.substring(0, 10) == 'iVBORw0KGg') {
+      return (
+        <img src={Base64Message.toDataUri(message.payload, "image/png")} />
+      )
+    }
+
     const [value, valueLanguage] = this.convertMessage(message.payload)
     const [compareStr, compareStrLanguage] =
       compare && compare.payload ? this.convertMessage(compare.payload) : [undefined, undefined]
@@ -96,7 +102,6 @@ class ValueRenderer extends React.Component<Props, State> {
   public render() {
     return (
       <div style={{ padding: '0px 0px 8px 0px', width: '100%' }}>
-        {this.props.message?.payload?.decoder === Decoder.SPARKPLUG && 'Decoded SparkplugB'}
         {this.renderValue()}
       </div>
     )
@@ -116,9 +121,12 @@ class ValueRenderer extends React.Component<Props, State> {
     }
     if (message.payload.base64Message.substring(0, 2) == '/9') {
       return (
-        <span>
-          Image
-        </span>
+        <img src={Base64Message.toDataUri(message.payload, "image/jpeg")} />
+      )
+    }
+    else if (message.payload.base64Message.substring(0, 10) == 'iVBORw0KGg') {
+      return (
+        <img src={Base64Message.toDataUri(message.payload, "image/png")} />
       )
     }
 
